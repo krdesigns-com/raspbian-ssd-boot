@@ -16,11 +16,8 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo fdisk /dev/sda
   w # write table
 EOF
 
-sudo mv /boot/cmdline.txt /boot/cmdline.txt.bak
-
-sudo cat <<EOF >/boot/cmdline.txt
-console=serial0,115200 console=tty1 root=PARTUUID=d34db33f-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait
-EOF
+sudo cp /boot/cmdline.txt /boot/cmdline.txt.bak
+sudo sed -i -r -e 's/PARTUUID=[a-f0-9-]*/PARTUUID=d34db33f-02/g' /boot/cmdline.txt
 
 echo -e "Make sure you do touch ssh for your microSD"
 echo -e "Installing NGINX \e[32m[DONE]\033[0m"
